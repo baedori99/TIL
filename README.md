@@ -1,4 +1,5 @@
 # TIL
 # TIL
 
-"안녕하세요"
+1. git clone 내주소
+2. git add push
