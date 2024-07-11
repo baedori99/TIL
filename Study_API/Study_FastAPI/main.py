@@ -20,14 +20,14 @@
 
 
 # #타입이 있는 매개변수
-from fastapi import FastAPI
+# from fastapi import FastAPI
 
-app = FastAPI()
+# app = FastAPI()
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
+# @app.get("/items/{item_id}")
+# async def read_item(item_id: int):
+#     return {"item_id": item_id}
 
 
 # # 순서 문제
@@ -159,3 +159,76 @@ async def read_item(item_id: int):
 # ):
 #     item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}
 #     return item
+
+# # 요청 본문
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    
+app = FastAPI()
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
+
+
+# # 모델 사용하기
+# from fastapi import FastAPI
+# from pydantic import BaseModel
+
+# class Item(BaseModel):
+#     name: str
+#     description: str | None = None
+#     price: float
+#     tax: float | None = None
+    
+# app = FastAPI()
+
+# @app.post("/items/")
+# async def create_item(item: Item):
+#     item_dict = item.dict()
+#     if item.tax:
+#         price_with_tax = item.price + item.tax
+#         item_dict.update({"price_with_tax": price_with_tax})
+#     return item_dict
+
+# # 요청 본문 + 경로 매개변수
+# from fastapi import FastAPI
+# from pydantic import BaseModel
+
+# class Item(BaseModel):
+#     name: str
+#     description: str | None = None
+#     price: float
+#     tax: float | None = None
+    
+# app = FastAPI()
+
+# @app.put("/items/{item_id}")
+# async def update_item(item_id: int, item: Item):
+#     return {"item_id": item_id, **item.dict()}
+
+
+# 요청 본문 + 경로 + 쿼리 매개변수
+# from fastapi import FastAPI
+# from pydantic import BaseModel
+
+# class Item(BaseModel):
+#     name: str
+#     description: str | None = None
+#     price: float
+#     tax: float | None = None
+    
+# app = FastAPI()
+
+# @app.put("/items/{item_id}")
+# async def update_item(item_id: int, item: Item, q: str | None = None):
+#     result = {"item_id": item_id, **item.dict()}
+#     if q:
+#         result.update({"q":q})
+#     return result
